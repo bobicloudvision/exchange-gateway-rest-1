@@ -15,8 +15,12 @@
  */
 package exchange.core2.rest;
 
+import exchange.core2.core.common.cmd.OrderCommand;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+
+import java.util.function.Consumer;
 
 
 @SpringBootApplication
@@ -25,12 +29,11 @@ public class RestGatewayApplication {
         SpringApplication.run(RestGatewayApplication.class, args);
     }
 
-
-    //    @Bean
-    //    public Consumer<OrderCommand> resultsConsumer() {
-    //        return cmd -> {
-    //            System.out.println(">>>" + cmd);
-    //        };
-    //    }
+    @Bean
+    public Consumer<OrderCommand> resultsConsumer() {
+        return cmd -> {
+            System.out.println(">>>" + cmd);
+        };
+    }
 
 }
