@@ -270,7 +270,7 @@ public class SyncAdminApiSymbolsController {
         /// ADD USER BALANCE USDT
         RestApiAccountBalanceAdjustment requestBalanceAdjustment = new RestApiAccountBalanceAdjustment(
                 888,
-                new BigDecimal("50000"),
+                new BigDecimal("1000000000000"),
                 "USDT"
         );
         final GatewayAssetSpec currency = gatewayState.getAssetSpec(requestBalanceAdjustment.currency);
@@ -301,7 +301,7 @@ public class SyncAdminApiSymbolsController {
         /// ADD USER BALANCE USDT #2
         RestApiAccountBalanceAdjustment requestBalanceAdjustment2 = new RestApiAccountBalanceAdjustment(
                 999,
-                new BigDecimal("50000"),
+                new BigDecimal("1000000000000"),
                 "USDT"
         );
         final GatewayAssetSpec currency2 = gatewayState.getAssetSpec(requestBalanceAdjustment2.currency);
@@ -328,7 +328,7 @@ public class SyncAdminApiSymbolsController {
         /// ADD USER BALANCE USDT #3
         RestApiAccountBalanceAdjustment requestBalanceAdjustment3 = new RestApiAccountBalanceAdjustment(
                 10000,
-                new BigDecimal("50000"),
+                new BigDecimal("1000000000000"),
                 "USDT"
         );
         final GatewayAssetSpec currency3 = gatewayState.getAssetSpec(requestBalanceAdjustment3.currency);
