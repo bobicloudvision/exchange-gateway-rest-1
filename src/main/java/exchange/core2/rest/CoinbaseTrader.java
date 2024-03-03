@@ -179,10 +179,10 @@ public class CoinbaseTrader {
                                 long uid = 4444;
                                 String symbol = "BTC_USDT_PERP";
 
-                                OrderAction orderAction = OrderAction.BID;
+                                OrderAction orderAction = OrderAction.ASK;
 
                                 if (message.getSide().equalsIgnoreCase("BUY")) {
-                                    orderAction = orderAction.ASK;
+                                    orderAction = orderAction.BID;
                                 }
 
                                 RestApiPlaceOrder placeOrder = new RestApiPlaceOrder(
