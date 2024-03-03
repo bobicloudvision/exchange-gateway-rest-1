@@ -24,7 +24,7 @@ public class Config {
     @Bean
     public ExchangeCore exchangeCore() {
         final ExchangeConfiguration exchangeConfiguration = ExchangeConfiguration.defaultBuilder()
-            .initStateCfg(InitialStateConfiguration.CLEAN_TEST)
+            .initStateCfg(InitialStateConfiguration.DEFAULT)
             .performanceCfg(PerformanceConfiguration.baseBuilder().build())
             .reportsQueriesCfg(ReportsQueriesConfiguration.createStandardConfig())
             .ordersProcessingCfg(OrdersProcessingConfiguration.DEFAULT)
