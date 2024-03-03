@@ -31,6 +31,7 @@ import exchange.core2.rest.model.internal.GatewayAssetSpec;
 import exchange.core2.rest.model.internal.GatewaySymbolSpec;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.collections.impl.map.mutable.primitive.IntLongHashMap;
+import org.eclipse.collections.impl.map.mutable.primitive.IntObjectHashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -90,6 +91,7 @@ public class SyncTradeAccountApiController {
             });
 
             final IntLongHashMap profileAccounts = reportResult.getAccounts();
+            final IntObjectHashMap positions = reportResult.getPositions();
 
             final List<RestApiAccountState> accounts = new ArrayList<>(profileAccounts.size());
             profileAccounts.forEachKeyValue((assetId, balance) -> {
@@ -102,6 +104,7 @@ public class SyncTradeAccountApiController {
             final RestApiUserState state = RestApiUserState.builder()
                     .accounts(accounts)
                     .activeOrders(activeOrders)
+                    .activePositions(positions)
                     .uid(uid)
                     .build();
 

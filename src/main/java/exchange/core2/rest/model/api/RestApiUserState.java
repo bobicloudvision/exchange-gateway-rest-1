@@ -19,6 +19,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Getter;
+import org.eclipse.collections.impl.map.mutable.primitive.IntObjectHashMap;
 
 import java.util.List;
 
@@ -27,6 +28,7 @@ public final class RestApiUserState {
 
     public final long uid;
     public final List<RestApiOrder> activeOrders;
+    public final IntObjectHashMap activePositions;
     public final List<RestApiAccountState> accounts;
 
     @JsonCreator
@@ -34,10 +36,12 @@ public final class RestApiUserState {
     public RestApiUserState(
             @JsonProperty("uid") long uid,
             @JsonProperty("activeOrders") List<RestApiOrder> activeOrders,
+            @JsonProperty("activePositions") IntObjectHashMap activePositions,
             @JsonProperty("accounts") List<RestApiAccountState> accounts) {
 
         this.uid = uid;
         this.activeOrders = activeOrders;
+        this.activePositions = activePositions;
         this.accounts = accounts;
     }
 
