@@ -26,6 +26,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Random;
@@ -36,7 +37,7 @@ import java.util.concurrent.*;
 @Slf4j
 @RequiredArgsConstructor
 public class CoinbaseTrader {
-    private static final RateLimiter rateLimiter = RateLimiter.create(100);
+    private static final RateLimiter rateLimiter = RateLimiter.create(1);
 
     private final ExecutorService executor = Executors.newFixedThreadPool(1);
     private final ScheduledExecutorService scheduledExecutor = Executors.newScheduledThreadPool(1);
@@ -50,15 +51,8 @@ public class CoinbaseTrader {
 
     @PostConstruct
     public void init() throws URISyntaxException {
-        System.out.println("start");
 
-//        User user = adminController.createUser("test@test.com", "12345678");
-//        PutProductRequest putProductRequest = new PutProductRequest();
-//        putProductRequest.setBaseCurrency("BTC");
-//        putProductRequest.setQuoteCurrency("USDT");
-//        adminController.saveProduct(putProductRequest);
-//        adminController.deposit(user.getId(), "BTC", "100000000000");
-//        adminController.deposit(user.getId(), "USDT", "100000000000");
+        System.out.println("start");
 
         MyClient client = new MyClient(new URI("wss://ws-feed.exchange.coinbase.com"));
 
@@ -157,9 +151,9 @@ public class CoinbaseTrader {
 
         @Override
         public void onMessage(String s) {
-//            if (!rateLimiter.tryAcquire()) {
-//                return;
-//            }
+            if (!rateLimiter.tryAcquire()) {
+                return;
+            }
             executor.execute(() -> {
                 try {
                     ChannelMessage message = JSON.parseObject(s, ChannelMessage.class);
@@ -172,7 +166,15 @@ public class CoinbaseTrader {
 
                                 System.out.println(message.getPrice());
                                 System.out.println(message.getSide().toUpperCase());
-                               // System.out.println(new BigDecimal(message.best_bid_size).longValue());
+
+
+                                // Parse the string to a double
+                                double decimalBestBitSize = Double.parseDouble(message.best_bid_size);
+
+                                // Multiply by a large number (e.g., 1e6 for 6 decimal places)
+                                long orderSize = (long)(decimalBestBitSize * 1e8);
+
+                                System.out.println(orderSize);
 
                                 long uid = 4444;
                                 String symbol = "BTC_USDT_PERP";
@@ -185,7 +187,7 @@ public class CoinbaseTrader {
 
                                 RestApiPlaceOrder placeOrder = new RestApiPlaceOrder(
                                         message.getPrice(),
-                                        5,
+                                        orderSize,
                                         0,
                                         orderAction,
                                         OrderType.GTC
