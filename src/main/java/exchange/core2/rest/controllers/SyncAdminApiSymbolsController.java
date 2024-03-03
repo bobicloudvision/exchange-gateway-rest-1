@@ -252,11 +252,13 @@ public class SyncAdminApiSymbolsController {
 
 
         /// ADD USER
-        RestApiAddUser requestAddUser = new RestApiAddUser(
-                4444
-        );
-        api.createUser(requestAddUser.getUid(), future::complete);
+        api.createUser(4444, future::complete);
+        api.createUser(5555, future::complete);
+        api.createUser(6666, future::complete);
+        api.createUser(7777, future::complete);
+        api.createUser(8888, future::complete);
         /// END ADDING USER
+
 
 
 
@@ -290,6 +292,60 @@ public class SyncAdminApiSymbolsController {
 
 
 
+
+
+
+
+
+
+        /// ADD USER BALANCE USDT #2
+        RestApiAccountBalanceAdjustment requestBalanceAdjustment2 = new RestApiAccountBalanceAdjustment(
+                999,
+                new BigDecimal("50000"),
+                "USDT"
+        );
+        final GatewayAssetSpec currency2 = gatewayState.getAssetSpec(requestBalanceAdjustment2.currency);
+        if (currency2 == null) {
+            return RestControllerHelper.errorResponse(ApiErrorCodes.UNKNOWN_CURRENCY);
+        }
+
+
+        final BigDecimal amount2 = requestBalanceAdjustment2.getAmount().scaleByPowerOfTen(currency2.scale).stripTrailingZeros();
+        if (amount2.scale() > 0) {
+            return RestControllerHelper.errorResponse(ApiErrorCodes.PRECISION_IS_TOO_HIGH);
+        }
+
+        final long longAmount2 = amount2.longValue();
+
+        api.balanceAdjustment(5555, requestBalanceAdjustment2.getTransactionId(), currency2.assetId, longAmount2, BalanceAdjustmentType.ADJUSTMENT, future::complete);
+        /// END USER BALANCE USDT #2
+
+
+
+
+
+
+        /// ADD USER BALANCE USDT #3
+        RestApiAccountBalanceAdjustment requestBalanceAdjustment3 = new RestApiAccountBalanceAdjustment(
+                10000,
+                new BigDecimal("50000"),
+                "USDT"
+        );
+        final GatewayAssetSpec currency3 = gatewayState.getAssetSpec(requestBalanceAdjustment3.currency);
+        if (currency3 == null) {
+            return RestControllerHelper.errorResponse(ApiErrorCodes.UNKNOWN_CURRENCY);
+        }
+
+
+        final BigDecimal amount3 = requestBalanceAdjustment3.getAmount().scaleByPowerOfTen(currency3.scale).stripTrailingZeros();
+        if (amount3.scale() > 0) {
+            return RestControllerHelper.errorResponse(ApiErrorCodes.PRECISION_IS_TOO_HIGH);
+        }
+
+        final long longAmount3 = amount3.longValue();
+
+        api.balanceAdjustment(6666, requestBalanceAdjustment3.getTransactionId(), currency3.assetId, longAmount3, BalanceAdjustmentType.ADJUSTMENT, future::complete);
+        /// END USER BALANCE USDT #3
 
 
 
